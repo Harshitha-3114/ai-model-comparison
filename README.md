@@ -8,15 +8,19 @@ Ask a question, get answers from two models simultaneously, and compare their sp
 ## 📸 Snapshots
 
 **1. Side-by-Side Prompt Comparison**
+---
 ![snapshot11](https://github.com/user-attachments/assets/ebecc0cd-d403-4fad-b746-5d5b52534ff7)
 
 **2. Chat Interface**  
+---
 ![snapshot2](https://github.com/user-attachments/assets/5d399a83-8f3a-4a54-8d2e-39ad927de272)
 
 **3. Efficiency Summary & Graph**  
+---
 ![snapshot3](https://github.com/user-attachments/assets/5174ea75-a106-46f0-a65e-4ddf4ec8d2bf)
 
 **4. Responses for Manual Review**  
+---
 ![snapshot4](https://github.com/user-attachments/assets/1a68dbcc-7e98-4c38-97bb-b06c58437a1b)
 
 ---
@@ -101,11 +105,3 @@ ai-model-comparison/
 Both models are **free tier** on Groq — no billing required.
 
 ---
-<img width="657" height="433" alt="snapshot1" src="https://github.com/user-attachments/assets/ebecc0cd-d403-4fad-b746-5d5b52534ff7" />
-
-<img width="491" height="429" alt="snapshot2" src="https://github.com/user-attachments/assets/5d399a83-8f3a-4a54-8d2e-39ad927de272" />
-<img width="397" height="382" alt="snapshot3" src="https://github.com/user-attachments/assets/5174ea75-a106-46f0-a65e-4ddf4ec8d2bf" />
-
-
-<img width="385" height="426" alt="snapshot4" src="https://github.com/user-attachments/assets/1a68dbcc-7e98-4c38-97bb-b06c58437a1b" />
-
