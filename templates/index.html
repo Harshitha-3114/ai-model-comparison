@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Qwen3 32B vs LLaMA 3.3 — AI Battle</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --red:        #c0392b;
+      --red-light:  #e74c3c;
+      --red-dark:   #922b21;
+      --red-glow:   rgba(192, 57, 43, 0.2);
+      --cream:      #fdf6ec;
+      --cream-dim:  #f5ead8;
+      --cream-muted:#b08060;
+      --bg:         #fdf6ec;
+      --surface:    #fff8f0;
+      --surface2:   #faebd7;
+      --border:     rgba(192, 57, 43, 0.22);
+      --text-main:  #2c0f0a;
+      --text-dim:   #5a2a1a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(circle, rgba(192,57,43,0.09) 1px, transparent 1px),
+        radial-gradient(circle, rgba(192,57,43,0.09) 1px, transparent 1px);
+      background-size: 60px 60px;
+      background-position: 0 0, 30px 30px;
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+
+    /* Hero */
+    .hero { text-align:center; padding:2.8rem 1rem 2rem; }
+    .hero-eyebrow {
+      font-size:0.72rem; font-weight:700; letter-spacing:0.28em;
+      text-transform:uppercase; color:var(--red); margin-bottom:0.9rem;
+    }
+    .hero-title {
+      font-size:clamp(2.6rem,7vw,4.4rem); font-weight:900;
+      line-height:1.04; letter-spacing:-0.025em; margin-bottom:0.65rem;
+    }
+    .t-gemini { color:var(--red); }
+    .t-vs {
+      font-size:0.42em; font-weight:800; color:var(--red-dark);
+      vertical-align:middle; margin:0 0.35em; letter-spacing:0.18em;
+    }
+    .t-groq { color:var(--text-main); }
+    .hero-subtitle { font-size:0.94rem; font-weight:600; color:var(--cream-muted); letter-spacing:0.025em; }
+    .hero-divider {
+      height:2px; width:130px; margin:1.5rem auto 0;
+      background:linear-gradient(90deg, transparent, var(--red-light), transparent);
+      border-radius:99px;
+    }
+
+    /* Card */
+    .card {
+      background-color:var(--surface);
+      border:1px solid var(--border);
+      border-radius:1rem;
+      box-shadow:0 4px 24px rgba(192,57,43,0.1);
+    }
+
+    /* Table */
+    #evaluation-results table { width:100%; border-collapse:collapse; margin-top:1rem; }
+    #evaluation-results th,
+    #evaluation-results td   { border:1px solid var(--border); padding:0.75rem 1rem; text-align:left; }
+    #evaluation-results th   {
+      background-color:var(--cream-dim); font-weight:700;
+      color:var(--text-main); font-size:0.78rem;
+      text-transform:uppercase; letter-spacing:0.06em;
+    }
+    #evaluation-results tr:nth-child(even) { background-color:rgba(245,234,216,0.55); }
+    #evaluation-results tr:hover           { background-color:rgba(192,57,43,0.07); }
+    #evaluation-results td                 { color:var(--text-dim); font-size:0.88rem; }
+
+    /* Inputs */
+    input[type="text"] {
+      background-color:var(--surface2) !important;
+      color:var(--text-main) !important;
+      border:1px solid var(--border) !important;
+      font-family:'Inter', sans-serif;
+    }
+    input[type="text"]::placeholder { color:var(--cream-muted) !important; }
+    input[type="text"]:focus {
+      outline:none !important;
+      box-shadow:0 0 0 2px var(--red-glow) !important;
+      border-color:var(--red) !important;
+    }
+
+    /* Response areas */
+    .chat-response-area {
+      background:var(--surface2); border:1px solid var(--border);
+      border-radius:1rem; padding:1.5rem;
+      min-height:200px; max-height:400px;
+      overflow-y:auto; word-break:break-word;
+      white-space:pre-wrap; font-size:0.9rem; line-height:1.65;
+    }
+    .eval-response-box {
+      background-color:var(--surface2); padding:1rem;
+      border-radius:0.6rem; border:1px solid var(--border);
+      display:flex; flex-direction:column; height:100%;
+    }
+    .eval-response-content {
+      flex-grow:1; overflow-y:auto; word-wrap:break-word;
+      white-space:pre-wrap; color:var(--text-dim);
+      font-size:0.88rem; line-height:1.65;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar       { width:5px; }
+    ::-webkit-scrollbar-track { background:transparent; }
+    ::-webkit-scrollbar-thumb { background:var(--border); border-radius:99px; }
+
+    /* Spinners */
+    .spinner-red   { border-color:rgba(192,57,43,0.15); border-top-color:var(--red); }
+    .spinner-cream { border-color:rgba(176,128,96,0.20); border-top-color:var(--cream-muted); }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+
+  <!-- ══ HERO ══ -->
+  <div class="hero w-full max-w-4xl">
+    <p class="hero-eyebrow">⚔&nbsp; Real-time AI Evaluation</p>
+    <h1 class="hero-title">
+      <span class="t-gemini">Qwen3 32B</span>
+      <span class="t-vs">VS</span>
+      <span class="t-groq">LLaMA 3.3</span>
+    </h1>
+    <p class="hero-subtitle">The Ultimate AI Battle &mdash; Speed, Cost &amp; Quality</p>
+    <div class="hero-divider"></div>
+  </div>
+
+  <!-- ══ CHAT SECTION ══ -->
+  <div class="card w-full max-w-4xl flex flex-col md:flex-row gap-8 p-8 mb-8">
+
+    <!-- Gemini Panel -->
+    <div class="flex-1 relative border-r pr-8" style="border-color:var(--border);">
+      <img src="https://placehold.co/48x48/c0392b/FDF6EC/png?text=Gem"
+           alt="Gemini Logo"
+           class="absolute top-0 left-0 w-12 h-12 -mt-4 -ml-4 z-10 rounded-full border-2"
+           style="border-color:var(--red-light);" />
+      <h2 class="text-3xl font-bold text-center mb-6" style="color:var(--red);">Qwen3 32B</h2>
+
+      <form id="gemini-form" class="flex flex-col md:flex-row gap-4 mb-6">
+        <input type="text" id="gemini-input" placeholder="Ask Qwen3 32B..." required class="flex-grow p-3 rounded-xl" />
+        <button type="submit"
+          class="font-bold py-3 px-6 rounded-xl border transition-all duration-200"
+          style="background:var(--red); color:var(--cream); border-color:var(--red-light); box-shadow:0 4px 18px var(--red-glow);"
+          onmouseover="this.style.background='var(--red-light)'"
+          onmouseout="this.style.background='var(--red)'">
+          Send
+        </button>
+      </form>
+
+      <div id="gemini-loading" class="hidden text-center my-4" style="color:var(--red);">
+        <div class="inline-block animate-spin rounded-full h-6 w-6 border-4 border-t-4 spinner-red"></div>
+        <p class="mt-2 text-sm font-semibold">Generating response...</p>
+      </div>
+
+      <div id="gemini-chat-response" class="chat-response-area">
+        <p style="color:var(--cream-muted);">Your Gemini response will appear here.</p>
+      </div>
+    </div>
+
+    <!-- Groq Panel -->
+    <div class="flex-1 relative pl-8">
+      <img src="https://placehold.co/48x48/c9a98a/1c0a07/png?text=GRQ"
+           alt="Groq Logo"
+           class="absolute top-0 right-0 w-12 h-12 -mt-4 -mr-4 z-10 rounded-full border-2"
+           style="border-color:var(--cream-muted);" />
+      <h2 class="text-3xl font-bold text-center mb-6" style="color:var(--text-main);">LLaMA 3.3</h2>
+
+      <form id="groq-form" class="flex flex-col md:flex-row gap-4 mb-6">
+        <input type="text" id="groq-input" placeholder="Ask LLaMA 3.3..." required class="flex-grow p-3 rounded-xl" />
+        <button type="submit"
+          class="font-bold py-3 px-6 rounded-xl border transition-all duration-200"
+          style="background:#5a3e2b; color:var(--cream); border-color:var(--cream-muted); box-shadow:0 4px 18px rgba(201,169,138,0.2);"
+          onmouseover="this.style.background='#7d5a3c'"
+          onmouseout="this.style.background='#5a3e2b'">
+          Send
+        </button>
+      </form>
+
+      <div id="groq-loading" class="hidden text-center my-4" style="color:var(--cream-muted);">
+        <div class="inline-block animate-spin rounded-full h-6 w-6 border-4 border-t-4 spinner-cream"></div>
+        <p class="mt-2 text-sm font-semibold">Generating response...</p>
+      </div>
+
+      <div id="groq-chat-response" class="chat-response-area">
+        <p style="color:var(--cream-muted);">Your Groq response will appear here.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ EVALUATION SECTION ══ -->
+  <div id="evaluation-section" class="card w-full max-w-4xl p-8 hidden mb-8">
+    <h2 class="text-3xl font-bold text-center mb-2" style="color:var(--text-main);">
+      ⚡ AI Model Evaluation
+    </h2>
+    <p class="text-center mb-6 text-sm font-medium" style="color:var(--red-dark);">
+      Efficiency metrics, performance graph &amp; response comparison for your last query.
+    </p>
+
+    <div id="evaluation-loading" class="hidden text-center my-4" style="color:var(--red);">
+      <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-t-4 spinner-red"></div>
+      <p class="mt-2 font-semibold">Evaluating response, please wait...</p>
+    </div>
+
+    <div id="evaluation-results">
+      <!-- Efficiency Summary Table -->
+      <h3 class="text-2xl font-bold mb-4" style="color:var(--text-main);">Efficiency Summary</h3>
+      <div class="overflow-x-auto rounded-xl mb-6">
+        <table class="w-full text-sm text-left">
+          <thead>
+            <tr>
+              <th class="py-3 px-6 rounded-tl-xl">Model</th>
+              <th class="py-3 px-6">Response Time (s)</th>
+              <th class="py-3 px-6">Input Tokens</th>
+              <th class="py-3 px-6">Output Tokens</th>
+              <th class="py-3 px-6 rounded-tr-xl">Approx. Cost ($)</th>
+            </tr>
+          </thead>
+          <tbody id="results-table-body"></tbody>
+        </table>
+      </div>
+
+      <!-- Conclusion -->
+      <p id="better-model-conclusion" class="text-center text-lg font-bold mb-8" style="color:var(--red);"></p>
+
+      <!-- Performance Graph -->
+      <h3 class="text-2xl font-bold mt-8 mb-4" style="color:var(--text-main);">Performance Graph (Time &amp; Cost)</h3>
+      <div class="p-4 rounded-xl border text-center mb-8" style="background:var(--surface2); border-color:var(--border);">
+        <img id="performance-graph" src="" alt="Performance Comparison Graph" class="w-full h-auto rounded-lg" />
+        <p class="mt-2 text-sm" style="color:var(--cream-muted);">
+          This graph visualizes the response time and approximate cost for the current query.
+        </p>
+      </div>
+
+      <!-- Detailed Responses for Manual Review -->
+      <h3 class="text-2xl font-bold mb-4" style="color:var(--text-main);">Responses for Manual Review (Quality)</h3>
+      <p class="mb-4 text-sm font-medium" style="color:var(--cream-muted);">
+        Carefully review the responses below for accuracy, relevance, and overall quality based on your input.
+      </p>
+      <div id="detailed-responses-container" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+    </div>
+  </div>
+
+  <!-- ══ JAVASCRIPT ══ -->
+  <script>
+    const geminiChatResponse        = document.getElementById('gemini-chat-response');
+    const groqChatResponse          = document.getElementById('groq-chat-response');
+    const evaluationSection         = document.getElementById('evaluation-section');
+    const evaluationLoading         = document.getElementById('evaluation-loading');
+    const resultsTableBody          = document.getElementById('results-table-body');
+    const performanceGraph          = document.getElementById('performance-graph');
+    const detailedResponsesContainer = document.getElementById('detailed-responses-container');
+    const betterModelConclusion     = document.getElementById('better-model-conclusion');
+
+    async function submitQueryForComparison(query, sender) {
+      // Show user message in the panel that was used
+      if (sender === 'gemini') {
+        geminiChatResponse.innerHTML = `<p style="color:var(--text-main)" class="mb-2"><strong>You:</strong> ${query}</p>`;
+        document.getElementById('gemini-loading').classList.remove('hidden');
+      } else {
+        groqChatResponse.innerHTML = `<p style="color:var(--text-main)" class="mb-2"><strong>You:</strong> ${query}</p>`;
+        document.getElementById('groq-loading').classList.remove('hidden');
+      }
+
+      // Show evaluation section with loading
+      evaluationSection.classList.remove('hidden');
+      evaluationLoading.classList.remove('hidden');
+      resultsTableBody.innerHTML = '';
+      performanceGraph.src = '';
+      detailedResponsesContainer.innerHTML = '';
+      betterModelConclusion.innerHTML = '';
+
+      try {
+        const res = await fetch('/compare_responses', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query })
+        });
+        const data = await res.json();
+
+        // Update Gemini chat panel
+        if (sender === 'gemini') {
+          geminiChatResponse.innerHTML +=
+            `<p class="mt-4" style="color:var(--text-dim)"><strong>Qwen3 32B:</strong> ${data.gemini_response}</p>`;
+        } else {
+          geminiChatResponse.innerHTML =
+            `<p style="color:var(--text-main)" class="mb-2"><strong>You:</strong> ${query}</p>` +
+            `<p class="mt-4" style="color:var(--text-dim)"><strong>Qwen3 32B:</strong> ${data.gemini_response}</p>`;
+        }
+
+        // Update Groq chat panel
+        if (sender === 'groq') {
+          groqChatResponse.innerHTML +=
+            `<p class="mt-4" style="color:var(--text-dim)"><strong>LLaMA 3.3:</strong> ${data.groq_response}</p>`;
+        } else {
+          groqChatResponse.innerHTML =
+            `<p style="color:var(--text-main)" class="mb-2"><strong>You:</strong> ${query}</p>` +
+            `<p class="mt-4" style="color:var(--text-dim)"><strong>LLaMA 3.3:</strong> ${data.groq_response}</p>`;
+        }
+
+        // Populate summary table
+        data.summary.forEach(m => {
+          resultsTableBody.innerHTML += `
+            <tr class="border-b" style="border-color:var(--border)">
+              <td class="py-3 px-6 font-semibold" style="color:var(--text-main)">${m.Model}</td>
+              <td class="py-3 px-6">${m.avg_response_time.toFixed(2)}</td>
+              <td class="py-3 px-6">${m.total_input_tokens.toLocaleString()}</td>
+              <td class="py-3 px-6">${m.total_output_tokens.toLocaleString()}</td>
+              <td class="py-3 px-6">$${m.total_approx_cost.toFixed(6)}</td>
+            </tr>`;
+        });
+
+        betterModelConclusion.textContent = data.better_model_statement;
+        performanceGraph.src = data.graph_url + '?' + Date.now();
+        performanceGraph.alt = `Performance Comparison Graph for "${query}"`;
+
+        detailedResponsesContainer.innerHTML = `
+          <div class="eval-response-box">
+            <div class="font-bold mb-2" style="color:var(--red)">Qwen3 32B Response:</div>
+            <div class="eval-response-content">${data.gemini_response}</div>
+          </div>
+          <div class="eval-response-box">
+            <div class="font-bold mb-2" style="color:var(--text-dim)">LLaMA 3.3 Response:</div>
+            <div class="eval-response-content">${data.groq_response}</div>
+          </div>`;
+
+      } catch (err) {
+        console.error('Fetch error:', err);
+        const errHTML = `<p class="mt-4 font-semibold" style="color:#e74c3c"><strong>Error:</strong> Failed to get responses. Check server logs &amp; API keys.</p>`;
+        if (sender === 'gemini') geminiChatResponse.innerHTML += errHTML;
+        else groqChatResponse.innerHTML += errHTML;
+        evaluationSection.innerHTML = `<p class="text-center font-semibold" style="color:#e74c3c">Error: Failed to run evaluation.</p>`;
+      } finally {
+        document.getElementById('gemini-loading').classList.add('hidden');
+        document.getElementById('groq-loading').classList.add('hidden');
+        evaluationLoading.classList.add('hidden');
+        document.getElementById('gemini-input').value = '';
+        document.getElementById('groq-input').value   = '';
+        geminiChatResponse.scrollTop = geminiChatResponse.scrollHeight;
+        groqChatResponse.scrollTop   = groqChatResponse.scrollHeight;
+      }
+    }
+
+    document.getElementById('gemini-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const q = document.getElementById('gemini-input').value.trim();
+      if (q) await submitQueryForComparison(q, 'gemini');
+    });
+
+    document.getElementById('groq-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const q = document.getElementById('groq-input').value.trim();
+      if (q) await submitQueryForComparison(q, 'groq');
+    });
+  </script>
+</body>
+</html>
