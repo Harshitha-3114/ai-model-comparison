@@ -8,7 +8,7 @@ Ask a question, get answers from two models simultaneously, and compare their sp
 ## 📸 Snapshots
 
 **1. Side-by-Side Prompt Comparison**
-![snapshot1](<img width="657" height="433" alt="snapshot1" src="https://github.com/user-attachments/assets/ebecc0cd-d403-4fad-b746-5d5b52534ff7" />)
+![snapshot1] (https://github.com/user-attachments/assets/ebecc0cd-d403-4fad-b746-5d5b52534ff7)
 
 **2. Chat Interface**  
 ![snapshot2](drag-drop image here)
