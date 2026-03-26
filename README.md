@@ -10,25 +10,24 @@ Ask a question, get answers from two models simultaneously, and compare their sp
 <table>
   <tr>
     <td align="center" width="50%">
-      <img src="snapshots/sn<img width="657" height="433" alt="snapshot1 png" src="https://github.com/user-attachments/assets/df98ab95-451a-4748-b674-f23cc65fccc2" />
-apshot1.png" width="100%" alt="Hero and Chat Interface"/>
+      <img src="<img width="657" height="433" alt="snapshot1 png" src="https://github.com/user-attachments/assets/216e64a9-c6a7-40c6-b208-94928be19b67" />
+" width="100%" alt="Side-by-Side Prompt Comparison"/>
       <br/><b>1. Side-by-Side Prompt Comparison</b>
     </td>
     <td align="center" width="50%">
-      <img src="snapshots/snapshot2.png" width="100%" alt="Efficiency Summary Table"/>
-      <br/><b>2. Chat Interface<img width="491" height="429" alt="snapshot2 png" src="https://github.com/user-attachments/assets/fe49dd35-7288-4c0a-873c-ed53098c0c58" />
-</b>
+      <img src="<img width="491" height="429" alt="snapshot2 png" src="https://github.com/user-attachments/assets/15357c41-ca77-4ec9-8d66-e4b546cbf6b5" />
+" width="100%" alt="Chat Interface"/>
+      <br/><b>2. Chat Interface</b>
     </td>
   </tr>
   <tr>
     <td align="center" width="50%">
-      <img src="snapshots/snapshot3.png" width="100%" alt="Performance Graph"/>
-      <br/><b>3. Efficiency Summ<img width="397" height="382" alt="snapshot3 png" src="https://github.com/user-attachments/assets/1c972e76-92ef-45c2-a07d-8e7bf98d1f82" />
-ary Table and Performance Graph</b>
+      <img src="<img width="397" height="382" alt="snapshot3 png" src="https://github.com/user-attachments/assets/37158cc8-6636-42be-ba5b-99beb1ea0f56" />
+" width="100%" alt="Efficiency Summary Table and Performance Graph"/>
+      <br/><b>3. Efficiency Summary Table and Performance Graph</b>
     </td>
     <td align="center" width="50%">
-      <img src="snapshots/snapsh<img width="385" height="426" alt="snapshot4 png" src="https://github.com/user-attachments/assets/55091c3e-9a35-403c-8a4b-d833f6dff0da" />
-ot4.png" width="100%" alt="Responses for Manual Review"/>
+      <img src="snapshots/snapshot4.png" width="100%" alt="Responses for Manual Review"/>
       <br/><b>4. Responses for Manual Review</b>
     </td>
   </tr>
@@ -117,6 +116,3 @@ Both models are **free tier** on Groq — no billing required.
 
 ---
 
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
