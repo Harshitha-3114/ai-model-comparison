@@ -7,32 +7,17 @@ Ask a question, get answers from two models simultaneously, and compare their sp
 
 ## 📸 Snapshots
 
-<table>
-  <tr>
-    <td align="center" width="50%">
-      <img src="<img width="657" height="433" alt="snapshot1" src="https://github.com/user-attachments/assets/14756a65-87d2-4d86-8b1c-ed48384d86fc" />
-" />
-" width="100%" alt="Side-by-Side Prompt Comparison"/>
-      <br/><b>1. Side-by-Side Prompt Comparison</b>
-    </td>
-    <td align="center" width="50%">
-      <img src="<img width="491" height="429" alt="snapshot2 png" src="https://github.com/user-attachments/assets/15357c41-ca77-4ec9-8d66-e4b546cbf6b5" />
-" width="100%" alt="Chat Interface"/>
-      <br/><b>2. Chat Interface</b>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="50%">
-      <img src="<img width="397" height="382" alt="snapshot3 png" src="https://github.com/user-attachments/assets/37158cc8-6636-42be-ba5b-99beb1ea0f56" />
-" width="100%" alt="Efficiency Summary Table and Performance Graph"/>
-      <br/><b>3. Efficiency Summary Table and Performance Graph</b>
-    </td>
-    <td align="center" width="50%">
-      <img src="snapshots/snapshot4.png" width="100%" alt="Responses for Manual Review"/>
-      <br/><b>4. Responses for Manual Review</b>
-    </td>
-  </tr>
-</table>
+**1. Side-by-Side Prompt Comparison**
+![snapshot1](<img width="657" height="433" alt="snapshot1" src="https://github.com/user-attachments/assets/ebecc0cd-d403-4fad-b746-5d5b52534ff7" />)
+
+**2. Chat Interface**  
+![snapshot2](drag-drop image here)
+
+**3. Efficiency Summary & Graph**  
+![snapshot3](drag-drop image here)
+
+**4. Responses for Manual Review**  
+![snapshot4](drag-drop image here)
 
 ---
 
@@ -116,4 +101,6 @@ ai-model-comparison/
 Both models are **free tier** on Groq — no billing required.
 
 ---
+<img width="657" height="433" alt="snapshot1" src="https://github.com/user-attachments/assets/ebecc0cd-d403-4fad-b746-5d5b52534ff7" />
+
 
