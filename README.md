@@ -7,17 +7,28 @@ Ask a question, get answers from two models simultaneously, and compare their sp
 
 ## 📸 Snapshots
 
-### 1. Hero & Chat Interface
-![Hero and Chat Interface](snapshots/snapshot1.png)
-
-### 2. Efficiency Summary Table
-![Efficiency Summary Table](snapshots/snapshot2.png)
-
-### 3. Performance Graph
-![Performance Graph](snapshots/snapshot3.png)
-
-### 4. Responses for Manual Review
-![Responses for Manual Review](snapshots/snapshot4.png)
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="snapshots/snapshot1.png" width="100%" alt="Hero and Chat Interface"/>
+      <br/><b>1. Hero & Chat Interface</b>
+    </td>
+    <td align="center" width="50%">
+      <img src="snapshots/snapshot2.png" width="100%" alt="Efficiency Summary Table"/>
+      <br/><b>2. Efficiency Summary Table</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="snapshots/snapshot3.png" width="100%" alt="Performance Graph"/>
+      <br/><b>3. Performance Graph</b>
+    </td>
+    <td align="center" width="50%">
+      <img src="snapshots/snapshot4.png" width="100%" alt="Responses for Manual Review"/>
+      <br/><b>4. Responses for Manual Review</b>
+    </td>
+  </tr>
+</table>
 
 ---
 
