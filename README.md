@@ -10,7 +10,8 @@ Ask a question, get answers from two models simultaneously, and compare their sp
 <table>
   <tr>
     <td align="center" width="50%">
-      <img src="<img width="657" height="433" alt="snapshot1 png" src="https://github.com/user-attachments/assets/216e64a9-c6a7-40c6-b208-94928be19b67" />
+      <img src="<img width="657" height="433" alt="snapshot1" src="https://github.com/user-attachments/assets/14756a65-87d2-4d86-8b1c-ed48384d86fc" />
+" />
 " width="100%" alt="Side-by-Side Prompt Comparison"/>
       <br/><b>1. Side-by-Side Prompt Comparison</b>
     </td>
